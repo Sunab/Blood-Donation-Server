@@ -115,11 +115,13 @@ export const logout = async (req, res) => {
 
 export const addTask = async (req, res) => {
   try {
-    const { title, description } = req.body;
+    const { title, description, hospitalName, bloodType } = req.body;
     const user = await User.findById(req.user._id);
     user.tasks.push({
       title,
       description,
+      hospitalName,
+      bloodType,
       completed: false,
       createdAt: new Date(Date.now()),
     });

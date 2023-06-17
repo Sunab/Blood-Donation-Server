@@ -15,5 +15,5 @@ app.use(
     useTempFiles: true,
   })
 );
-app.use(cors());
+app.use(cors({ allowedHeaders: true, credentials: true }));
 app.use("/api/v1", User);

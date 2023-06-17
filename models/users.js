@@ -27,6 +27,8 @@ const userSchema = new mongoose.Schema({
     {
       title: "String",
       description: "String",
+      hospitalName: "String",
+      bloodType: "String",
       completed: Boolean,
       createdAt: Date,
     },
