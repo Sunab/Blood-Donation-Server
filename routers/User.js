@@ -1,10 +1,12 @@
 import express from "express";
+
 import {
   register,
   verify,
   login,
   logout,
   addTask,
+  viewAllTask,
   removeTask,
   updateTask,
   myProfile,
@@ -23,6 +25,7 @@ router.route("/login").post(login);
 router.route("/logout").get(logout);
 
 router.route("/newtask").post(isAuthenticated, addTask);
+router.route("/viewtask").get(viewAllTask);
 router.route("/profile").get(isAuthenticated, myProfile);
 router
   .route("/task/:taskId")

@@ -1,6 +1,9 @@
+import mongoose from "mongoose";
+import catchAsyncError from "../middleware/catchAsyncError.js";
 import { User } from "../models/users.js";
 import { sendMail } from "../utils/sendMail.js";
 import { sendToken } from "../utils/sendToken.js";
+
 import cloudinary from "cloudinary";
 import fs from "fs";
 export const register = async (req, res) => {
@@ -115,16 +118,26 @@ export const logout = async (req, res) => {
 
 export const addTask = async (req, res) => {
   try {
-    const { title, description, hospitalName, bloodType } = req.body;
+    const {
+      title,
+      description,
+      hospital_name,
+      blood_group,
+      latitude,
+      longitude,
+    } = req.body;
     const user = await User.findById(req.user._id);
     user.tasks.push({
       title,
       description,
-      hospitalName,
-      bloodType,
+      hospital_name,
+      blood_group,
+      latitude,
+      longitude,
       completed: false,
       createdAt: new Date(Date.now()),
     });
+    console.log(user);
     await user.save();
     return res
       .status(200)
@@ -180,6 +193,50 @@ export const updateTask = async (req, res) => {
     });
   }
 };
+
+export const viewAllTask = async (req, res) => {
+  const data = await User.find();
+  var allTasks = [];
+  for (let i = 0; i < data.length; i++) {
+    const tasks = data[i].tasks;
+    for (let j = 0; j < tasks.length; j++) {
+      const task = tasks[j];
+      allTasks.push(task);
+    }
+  }
+  console.log(allTasks, "taskksssssssssdadsadas");
+
+  return res.status(200).json({
+    success: true,
+    allTasks,
+    message: "Task added successfully",
+  });
+
+  // try {
+  //   User.tasks &&
+  //     user.tasks.forEach((tasks, index) => {
+  //       (key = { index }),
+  //         (title = { title }),
+  //         (description = { description }),
+  //         (hospitalName = { hospital_name }),
+  //         (BloodGroup = { blood_group }),
+  //         (latitude = { latitude }),
+  //         (longitude = { longitude }),
+  //         (taskId = { id });
+  //     });
+  // } catch (error) {
+  //   res.status(500).json({
+  //     success: false,
+  //     message: error.message,
+  //   });
+  // }
+};
+// const data = await User.find();
+// res.status(200).json({
+//   success: true,
+//   data,
+// });
+// console.log(data);
 
 export const myProfile = async (req, res) => {
   try {

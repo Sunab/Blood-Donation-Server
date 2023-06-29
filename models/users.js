@@ -19,20 +19,22 @@ const userSchema = new mongoose.Schema({
     minlength: [8, "Password must be 8 characters long"],
     select: false,
   },
-  avatar: {
-    public_id: String,
-    url: String,
-  },
   tasks: [
     {
       title: "String",
       description: "String",
-      hospitalName: "String",
-      bloodType: "String",
+      hospital_name: "String",
+      blood_group: "String",
+      longitude: "String",
+      latitude: "String",
       completed: Boolean,
       createdAt: Date,
     },
   ],
+  avatar: {
+    public_id: String,
+    url: String,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

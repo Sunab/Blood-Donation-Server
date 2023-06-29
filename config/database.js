@@ -1,4 +1,5 @@
-import mongoose from "mongoose";
+import mongoose, { mongo } from "mongoose";
+import Express from "express";
 
 export const connectDatabase = async () => {
   try {
