@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
     minlength: [8, "Password must be 8 characters long"],
     select: false,
   },
+  bloodgroup: {
+    type: String,
+    required: true,
+  },
   tasks: [
     {
       title: "String",

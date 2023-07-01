@@ -8,7 +8,7 @@ import cloudinary from "cloudinary";
 import fs from "fs";
 export const register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, bloodgroup } = req.body;
     const avatar = req.files.avatar.tempFilePath;
 
     let user = await User.findOne({ email });
@@ -31,6 +31,7 @@ export const register = async (req, res) => {
       name,
       email,
       password,
+      bloodgroup,
       avatar: {
         public_id: myUpload.public_id,
         url: myUpload.secure_url,
@@ -39,7 +40,11 @@ export const register = async (req, res) => {
       otp_expiry: new Date(Date.now() + process.env.OTP_EXPIRE * 60 * 1000),
     });
 
-    await sendMail(email, "Verify your Account", `Your Otp is ${otp}`);
+    await sendMail(
+      email,
+      "Verify your Account",
+      `Your Otp is ${otp} Please Verify within 5 minutes.`
+    );
 
     sendToken(
       res,
